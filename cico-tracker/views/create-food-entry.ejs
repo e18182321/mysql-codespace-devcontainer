@@ -1,0 +1,5 @@
+<h1 class="mb-4">Add Food Entry</h1>
+<form method="POST" class="card card-body">
+  <%- include('food-entry-form', { foodEntry: {}, meals, tags, relatedTags: [] }) %>
+  <input class="btn btn-success mt-3" type="submit" value="Create Food Entry">
+</form>

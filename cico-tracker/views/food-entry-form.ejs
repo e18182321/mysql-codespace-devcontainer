@@ -1,0 +1,52 @@
+<div class="mb-3">
+  <label class="form-label" for="dateTime">Date and Time</label>
+  <input class="form-control" type="datetime-local" id="dateTime" name="dateTime" required
+    value="<%= foodEntry.dateTime?.replace(' ', 'T').slice(0, 16) %>">
+</div>
+<div class="mb-3">
+  <label class="form-label" for="foodName">Food Name</label>
+  <input class="form-control" type="text" id="foodName" name="foodName"
+    value="<%= foodEntry.foodName %>">
+</div>
+<div class="mb-3">
+  <label class="form-label" for="calories">Calories</label>
+  <input class="form-control" type="number" id="calories" name="calories"
+    required min="-2147483648" max="2147483647" step="1"
+    value="<%= foodEntry.calories %>">
+</div>
+<div class="mb-3">
+  <label class="form-label" for="servingSize">Serving Size</label>
+  <input class="form-control" type="number" id="servingSize" name="servingSize"
+    required min="-2147483648" max="2147483647" step="1"
+    value="<%= foodEntry.servingSize %>">
+</div>
+<div class="mb-3">
+  <label class="form-label" for="unit">Unit</label>
+  <select class="form-select" id="unit" name="unit">
+    <% for (const unit of ['serving', 'gram', 'ounce', 'pound']) { %>
+      <option value="<%= unit %>" <%= foodEntry.unit === unit ? 'selected' : '' %>><%= unit[0].toUpperCase() + unit.slice(1) %></option>
+    <% } %>
+  </select>
+</div>
+<fieldset class="mb-3">
+  <legend class="fs-6">Meal</legend>
+  <% for (const meal of meals) { %>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="meal"
+        id="meal-<%= meal.id %>" value="<%= meal.id %>"
+        <%= (foodEntry.meal_id ?? 1) === meal.id ? 'checked' : '' %> required>
+      <label class="form-check-label" for="meal-<%= meal.id %>"><%= meal.name %></label>
+    </div>
+  <% } %>
+</fieldset>
+<fieldset class="mb-3">
+  <legend class="fs-6">Tags</legend>
+  <% for (const tag of tags) { %>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" name="tags[]"
+        id="tag-<%= tag.id %>" value="<%= tag.id %>"
+        <%= relatedTags.includes(tag.id) ? 'checked' : '' %>>
+      <label class="form-check-label" for="tag-<%= tag.id %>"><%= tag.name %></label>
+    </div>
+  <% } %>
+</fieldset>

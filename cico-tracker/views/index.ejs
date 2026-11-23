@@ -1,0 +1,60 @@
+<h1 class="mb-4">Food Entries</h1>
+<form method="GET" action="/" class="row g-2 mb-4">
+  <div class="col-sm">
+    <label class="form-label" for="search">Search by food name</label>
+    <input class="form-control" type="search" id="search" name="search"
+      value="<%= searchTerm %>" placeholder="For example, rice">
+  </div>
+  <div class="col-sm-auto d-flex align-items-end gap-2">
+    <button class="btn btn-primary" type="submit">Search</button>
+    <a class="btn btn-outline-secondary" href="/">Clear</a>
+  </div>
+</form>
+<% if (foodEntries.length === 0) { %>
+  <div class="alert alert-info" role="status">
+    <% if (searchTerm) { %>
+      No food entries found for "<%= searchTerm %>".
+    <% } else { %>
+      There are no food entries yet. Use Add Food Entry to create one.
+    <% } %>
+  </div>
+<% } %>
+<div class="table-responsive">
+  <table class="table table-striped table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">When</th>
+        <th scope="col">Food Name</th>
+        <th scope="col">Calories</th>
+        <th scope="col">Meal</th>
+        <th scope="col">Tags</th>
+        <th scope="col">Serving Size</th>
+        <th scope="col">Unit</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const entry of foodEntries) { %>
+        <% const [date, time] = entry.dateTime.split(' '); %>
+        <tr>
+          <td><%= date %><br><%= time %></td>
+          <td><%= entry.foodName %></td>
+          <td><%= entry.calories %></td>
+          <td><%= entry.meal %></td>
+          <td>
+            <% for (const tag of (entry.selected_tags || '').split(',').filter(Boolean)) { %>
+              <span class="badge text-bg-primary me-1"><%= tag %></span>
+            <% } %>
+          </td>
+          <td><%= entry.servingSize %></td>
+          <td><%= entry.unit %></td>
+          <td class="text-nowrap">
+            <a class="btn btn-success btn-sm" href="/food-entry/<%= entry.id %>/edit">Edit</a>
+            <a class="btn btn-danger btn-sm" href="/food-entry/<%= entry.id %>/delete">Delete</a>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+<a class="btn btn-primary mt-3" href="/food-entry/create">Add Food Entry</a>
